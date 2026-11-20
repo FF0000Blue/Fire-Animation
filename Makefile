@@ -1,2 +1,2 @@
 dev :
-cc fireOpti -Wall -Wextra -fsanitize=address -lncurses
+	cc src/easyExempleFire.c -Wall -Wextra -fsanitize=address -o "bin/fireAnim.out" -lncurses 

@@ -1,22 +1,6 @@
 /**
   * # The infernal Canyon 
   * fire.c
-
-Useful struct :
-struct Fire
-
-Useful functions :
-fire_create() -to get a struct fire * object
-fire_destroy() -to destroy a struct fire * object (malloc type shi)
-
-get_char_fire() -to get the visual representation of this heat in the palette
-update_fire_logic() -to update the state of fire (call at a regular interval of time)
-
-Useful const :
-INTENSITY : Numbers of case randomly burned
-COOLING : Numbers of case randomly cooled down to 0
-MAX_FIRE : maximum value given randomly when update_fire_logic()
-
  */
 #ifndef INFERNAL_CANYON_FIRE
 #define INFERNAL_CANYON_FIRE
@@ -24,12 +8,8 @@ MAX_FIRE : maximum value given randomly when update_fire_logic()
 #include <ncurses.h>
 #include <stdlib.h>
 
+#include "./constants.c"
 #include "./colors.c"
-
-const double INTENSITY = 0.5;
-const double COOLING = 0.25;
-
-const int MAX_FIRE = 100;
 
 struct Cell {
 	int heat;
@@ -38,6 +18,9 @@ struct Cell {
 
 struct Fire {
 	struct Cell * * structure;
+	int max_fire;
+	double intensity;
+	double cooling;
 		
 };
 
@@ -51,6 +34,8 @@ struct Fire * fire_create(void){
 			fire->structure[i][j].newHeat = 0;
 		}
 	}
+	fire->intensity = INTENSITY;
+	fire->cooling = COOLING;
 	return fire;
 }
 
@@ -106,17 +91,16 @@ int average_heat_neighbours(struct Fire * fire, int x, int y){
 	)/5;
 }
 
-
 /* Fire generation */
 void seed_fire(struct Fire * fire){
-	for (int i = 0; i < INTENSITY*COLS; i++){
+	for (int i = 0; i < fire->intensity*COLS; i++){
 		fire->structure[LINES-1][rand()%COLS].newHeat = rand()%MAX_FIRE;
 	}
 	return;
 }
 
 void cooling_fire(struct Fire * fire){
-	for (int i = 0; i < COOLING*COLS; i++){
+	for (int i = 0; i < fire->cooling*COLS; i++){
 		fire->structure[LINES-1][rand()%COLS].newHeat = 0;
 	}
 }

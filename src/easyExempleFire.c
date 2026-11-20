@@ -2,7 +2,7 @@
 #include <stdint.h>
 
 #include "./colors.c"
-#include "./fireModule.c"
+#include "./fire.c"
 
 const char KEY_QUIT = 'q';
 
